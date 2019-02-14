@@ -1,0 +1,48 @@
+Marrah Delmont
+Homework 3
+Due Tuesday, February 19
+
+--------NUMBER 1----------------
+mysql> select name from Highschooler where ID IN (select ID1 from Friend WHERE ID2 IN (select ID from Highschooler where name ="Gabriel"));
++-----------+
+| name      |
++-----------+
+| Jordan    |
+| Cassandra |
+| Andrew    |
+| Alexis    |
+| Jessica   |
++-----------+
+5 rows in set (0.01 sec)
+
+------NUMBER 2-------------------
+ mysql> select name, grade from Highschooler where ID NOT IN(select ID1 from Likes) AND ID NOT IN (select ID2 from Likes);
++---------+-------+
+| name    | grade |
++---------+-------+
+| Jordan  |     9 |
+| Tiffany |     9 |
+| Logan   |    12 |
++---------+-------+
+3 rows in set (0.00 sec)
+
+---------NUMBER 3-------------
+
+mysql> select name, grade from Highschooler where ID in (select ID2 from (select count(ID1) as liked,ID2 from Likes group by ID2) G where G.liked >= 2);
++-----------+-------+
+| name      | grade |
++-----------+-------+
+| Cassandra |     9 |
+| Kris      |    10 |
++-----------+-------+
+2 rows in set (0.00 sec)
+
+----------NUMBER 4--------------
+
+mysql> select H1.name, H1.grade, H2.name, H2.grade from Highschooler H1 INNER JOIN Likes ON H1.ID = Likes.ID1 INNER JOIN Highschooler H2 ON H2.ID = Likes.ID2 where (H1.grade - H2.grade) >= 2;
++------+-------+-------+-------+
+| name | grade | name  | grade |
++------+-------+-------+-------+
+| John |    12 | Haley |    10 |
++------+-------+-------+-------+
+1 row in set (0.00 sec)
